@@ -46,7 +46,7 @@ h3 {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
-    padding: 20px;
+    padding-top: 20px;
     width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -55,7 +55,7 @@ h3 {
 .grid-item {
     border: 1px solid rgba(0, 0, 0, 0.8);
     font-size: 20px;
-    width: 299px;
+    width: 298px;
     height: auto;
     display: flex; 
     flex-direction: column; 
