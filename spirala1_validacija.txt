@@ -1,0 +1,11 @@
+Validaciju svih HTML i CSS fajlova sam uradio u sklopu spirale 1, prije postavke dodatnog zadatka, osim validacije fajla meni.html, koju sam mijenjao poslije urađene validacije.
+
+Broj grešaka i kratak opis grešaka tokom validacije tog fajla je dat u nastavku:
+meni.html - 3 greške
+Greška 1: No space between attributes. At line 16, column 52: arget="_parent"">Prijava</a></
+Greška 2: Saw " when expecting an attribute name. Probable cause: = missing immediately before. At line 16, column 52: arget="_parent"">Prijava</a></
+Greška 3: Attribute " not allowed on element a at this point. At line 16, column 52: arget="_parent"">Prijava</a></
+Ovo je sve zbog dodatnog znaka navodnika prilikom definisanja target="_parent".
+
+Za validaciju HTML fajlova sam koristio "Nu Html Checker": https://validator.w3.org/nu/.
+Za validaciju CSS fajlova sam koristio "The W3C CSS Validation Service": https://jigsaw.w3.org/css-validator/.
