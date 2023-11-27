@@ -1,4 +1,5 @@
 function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
+    if(divReferenca == null) return ;
     const filtriraneNekretnine = instancaModula.filtrirajNekretnine({ tip_nekretnine: tip_nekretnine });
 
     divReferenca.innerHTML = '';
@@ -19,6 +20,7 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
             <p>${nekretnina.naziv} / ${nekretnina.lokacija}</p>
             <p>${nekretnina.kvadratura}m2</p>
             <p style="text-align: right;">${nekretnina.cijena} KM</p>
+            <button type="button">Detalji</button>
         `;
         divReferenca.appendChild(nekretninaElement);
     });
