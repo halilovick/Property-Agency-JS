@@ -1,4 +1,0 @@
-Što se tiče urađenih modifikacija, prvobitno sam u profil.html morao izbaciti sliku iz tabele i staviti je odvojeno, sa obzirom da sam prvenstveno prikazivao sliku kao element prvog reda i prve kolone tabele. Uzimajući u obzir promjene koje sam morao napraviti, držanje slike u tabeli više nije bilo moguće. 
-U profil.css sam dodao dva media querie-a, jedan za širinu prozora do 499.99px, i drugi za širinu prozora od 500px.
-U querie-u za širinu prozora do 499.99px sam naveo da slika i tabela moraju biti jedno ispod drugog, te sam uz pomoć margina izveo da slika bude iznad prve kolone tabele. 
-U querie-u za širinu prozora od 500px sam naveo da slika i tabela moraju biti jedno do drugog (koristeći flex-direction: row), a kako bi prilagodio njihovo pomicanje zajedno sa menijem, stavio sam fiksnu širinu tog div-a u kojem se nalaze na 500px. Sada, kako se prozor širio ili smanjivao, tako se cijeli div micao zajedno sa menijem. 

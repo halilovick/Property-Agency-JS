@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="hr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link href="../css/meni.css" rel="stylesheet">
+    <title>Meni</title>
+</head>
+
+<body>
+    <ul>
+        <li><a href="profil.html" target="_parent" id="profilItem">Profil</a></li>
+        <li><a href="nekretnine.html" target="_parent">Nekretnine</a></li>
+        <li><a href="detalji.html" target="_parent">Detalji</a></li>
+        <li><a href="prijava.html" target="_parent" id="prijavaItem">Prijava</a></li>
+        <li><button type="submit" onclick="odjava()" id="odjavaItem">Odjava</button></li>
+    </ul>
+    <script src="../PoziviAjax.js"></script>
+    <script>
+        function odjava() {
+            PoziviAjax.postLogout(function (error, data) {
+                if (error) {
+                    console.error('Greška pri odjavi:', error);
+                } else {
+                    console.log('Uspješna odjava', data);
+                }
+                DaLiJeLogovan();
+            });
+        }
+        function DaLiJeLogovan() {
+            PoziviAjax.getKorisnik(function (error, data) {
+                if (error) {
+                    document.getElementById('prijavaItem').style.display = 'block';
+                    document.getElementById('odjavaItem').style.display = 'none';
+                    document.getElementById('profilItem').style.display = 'none';
+                } else {
+                    document.getElementById('odjavaItem').style.display = 'block';
+                    document.getElementById('prijavaItem').style.display = 'none';
+                    document.getElementById('profilItem').style.display = 'block';
+                }
+            });
+        }
+        window.onload = DaLiJeLogovan;
+    </script>
+</body>
+
+</html>

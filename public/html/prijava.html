@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="hr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link href="../css/prijava.css" rel="stylesheet">
+    <title>Prijava</title>
+</head>
+
+<body>
+    <div id="menu">
+        <iframe src="meni.html" id="meniFrame"></iframe>
+    </div>
+
+    <div id="page">
+        <form id="loginForm" action="/login" method="post">
+            <div class="form-container">
+                <label for="username">Korisničko ime:</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="password">Lozinka:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="button" onclick="submitLoginForm()">Prijava</button>
+            </div>
+        </form>
+    </div>
+    <script src="../PoziviAjax.js"></script>
+    <script>
+        function forceReload() {
+            var iframe = document.getElementById('meniFrame');
+            if (iframe) {
+                iframe.src = iframe.src;
+            } else {
+                console.error('Iframe not found.');
+            }
+        }
+        function submitLoginForm() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            PoziviAjax.postLogin(username, password, function (error, data) {
+                if (error) {
+                    console.error('Greška pri prijavi:', error);
+                } else {
+                    console.log('Uspješna prijava. Podaci:', data);
+                    window.location.href = '/nekretnine.html';
+                    forceReload();
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="hr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link href="../css/nekretnine.css" rel="stylesheet">
+    <title>Nekretnine</title>
+</head>
+
+<body>
+    <div id="menu">
+        <iframe src="meni.html"></iframe>
+    </div>
+    <div id="page">
+        <div id="filterElementi">
+            <label for="minCijena">Minimalna cijena:</label>
+            <input type="number" id="minCijena">
+
+            <label for="maxCijena">Maksimalna cijena:</label>
+            <input type="number" id="maxCijena">
+
+            <label for="minKvadratura">Minimalna kvadratura:</label>
+            <input type="number" id="minKvadratura">
+
+            <label for="maxKvadratura">Maksimalna kvadratura:</label>
+            <input type="number" id="maxKvadratura">
+
+            <button id="pretragaButton">Pretraga</button>
+        </div>
+
+        <div id="nekretnine">
+            <h3>Stan</h3>
+            <div id="stan">
+            </div>
+            <h3>Kuća</h3>
+            <div id="kuca">
+            </div>
+            <h3>Poslovni prostor</h3>
+            <div id="pp">
+            </div>
+        </div>
+    </div>
+
+    <script src="../MarketingAjax.js"></script>
+    <script src="../PoziviAjax.js"></script>
+    <script src="../SpisakNekretnina.js"></script>
+    <script src="../nekretnine.js"></script>
+
+    <script>
+        setInterval(function () {
+          ////  osvjezi();
+        }, 500);
+    </script>
+
+</body>
+
+</html>

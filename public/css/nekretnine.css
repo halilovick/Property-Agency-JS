@@ -35,6 +35,12 @@ body {
     margin-right: auto;
 }
 
+#pretrageiklikovi {
+    width: 100%;
+    display: block;
+    height: auto;
+}
+
 h3 {
     padding-left: 25px;
     font-size: 30px;
@@ -44,7 +50,7 @@ h3 {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));;
     gap: 20px;
     padding-top: 20px;
     width: 100%;
@@ -57,9 +63,9 @@ h3 {
     font-size: 20px;
     width: 298px;
     height: auto;
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: space-between;
     text-align: left;
 }
@@ -81,4 +87,37 @@ h3 {
     width: 50%;
     padding: 5px;
     margin: 20px auto;
+}
+
+#filterElementi {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 50%;
+    padding-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#filterElementi label {
+    margin-bottom: 5px;
+    display: block;
+}
+
+#filterElementi input {
+    width: 100%;
+    padding: 5px;
+}
+
+#filterElementi button {
+    width: 50%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    grid-column: span 2;
+    margin-left: auto;
+    margin-right: auto;
 }
