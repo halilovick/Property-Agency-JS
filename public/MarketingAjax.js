@@ -75,7 +75,7 @@ const MarketingAjax = (() => {
                 osvjeziTrenutnu = false;
                 return response.json();
             }).then((data) => {
-                //console.log(data);
+                console.log(data);
                 data.forEach(nekretnina => {
                     const nekretninaId = nekretnina.nekretninaId;
                     const klikoviValue = nekretnina.klikovi;
@@ -92,7 +92,7 @@ const MarketingAjax = (() => {
             }).then((response) => {
                 return response.json();
             }).then((data) => {
-                //console.log(data);
+                console.log(data);
                 data.forEach(nekretnina => {
                     const nekretninaId = nekretnina.nekretninaId;
                     const klikoviValue = nekretnina.klikovi;

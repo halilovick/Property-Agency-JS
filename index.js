@@ -214,6 +214,15 @@ app.post('/marketing/nekretnina/:id', (req, res) => {
 
 app.post('/marketing/osvjezi', (req, res) => {
     let nizPromjenjenih = [];
+    /*if (req.session.osvjeziJednog != null) {
+        let indeks = req.session.osvjeziJednog;
+        nizNekretninaTrenutna.forEach(obj1 => {
+            if (obj1.nekretninaId !== undefined && indeks == obj1.nekretninaId) {
+                nizPromjenjenih.push(obj1);
+            }
+        })
+        console.log(nizPromjenjenih);
+    }*/
     if (nizNekretninaTrenutna.length == 0 && req.body.nizNekretnina !== undefined) {
         nizPromjenjenih = req.body.nizNekretnina;
     } else if (req.body.nizNekretnina !== undefined) {
@@ -221,12 +230,29 @@ app.post('/marketing/osvjezi', (req, res) => {
         noviNiz = noviNiz.map(id => {
             return parseInt(id);
         });
+        if (noviNiz.length == 1) {
+            req.session.osvjeziJednog = noviNiz[0];
+        } else {
+            req.session.osvjeziJednog = null;
+        }
         nizNekretninaTrenutna.forEach(obj1 => {
             if (obj1.nekretninaId !== undefined && noviNiz.includes(obj1.nekretninaId)) {
                 nizPromjenjenih.push(obj1);
             }
         })
+    } else if(req.session.osvjeziJednog == null) {
+        nizPromjenjenih = nizNekretninaTrenutna;
     }
+
+    if (req.session.osvjeziJednog != null) {
+        let indeks = req.session.osvjeziJednog;
+        nizNekretninaTrenutna.forEach(obj1 => {
+            if (obj1.nekretninaId !== undefined && indeks == obj1.nekretninaId) {
+                nizPromjenjenih.push(obj1);
+            }
+        })
+    }
+
     //console.log("nizpromjenjih: ", nizPromjenjenih);
     //console.log("/marketing/osvjezi");
     res.status(200).send(nizPromjenjenih);
