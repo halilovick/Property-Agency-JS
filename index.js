@@ -109,8 +109,8 @@ app.post('/upit', (req, res) => {
                                 selectedNekretnina.upiti = [];
                             }
 
-                            const newUpit = { id_korisnika: loggedInUser.id, tekst: tekst_upita };
-                            selectedNekretnina.upiti.push(newUpit);
+                            const noviUpit = { korisnik_id: loggedInUser.id, tekst_upita: tekst_upita };
+                            selectedNekretnina.upiti.push(noviUpit);
 
                             fs.writeFile('data/nekretnine.json', JSON.stringify(nekretnine), (err) => {
                                 console.log(err);
@@ -146,8 +146,6 @@ app.put('/korisnik', (req, res) => {
                     fs.writeFile('data/korisnici.json', JSON.stringify(users), (err) => {
                         if (err) {
                             res.status(500).json({ greska: err.message });
-                        } else {
-                            res.status(200).json({ poruka: 'Podaci su uspješno ažurirani' });
                         }
                     });
 
