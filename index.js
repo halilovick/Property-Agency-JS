@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcrypt');
 
 const app = express();
 const port = 3000;
@@ -44,7 +45,7 @@ app.post('/login', (req, res) => {
             res.status(400).json({ greska: err.message });
         } else {
             const users = JSON.parse(data.toString('utf8'));
-            const user = users.find(u => u.username === username && u.password === password);
+            const user = users.find(u => u.username === username && bcrypt.compare(password, u.password));
             if (user) {
                 req.session.username = user.username;
                 res.status(200).json({ poruka: 'Uspješna prijava' });
@@ -212,15 +213,6 @@ app.post('/marketing/nekretnina/:id', (req, res) => {
 
 app.post('/marketing/osvjezi', (req, res) => {
     let nizPromjenjenih = [];
-    /*if (req.session.osvjeziJednog != null) {
-        let indeks = req.session.osvjeziJednog;
-        nizNekretninaTrenutna.forEach(obj1 => {
-            if (obj1.nekretninaId !== undefined && indeks == obj1.nekretninaId) {
-                nizPromjenjenih.push(obj1);
-            }
-        })
-        console.log(nizPromjenjenih);
-    }*/
     if (nizNekretninaTrenutna.length == 0 && req.body.nizNekretnina !== undefined) {
         nizPromjenjenih = req.body.nizNekretnina;
     } else if (req.body.nizNekretnina !== undefined) {

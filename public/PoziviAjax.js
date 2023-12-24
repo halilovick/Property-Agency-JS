@@ -1,8 +1,6 @@
 const PoziviAjax = (() => {
-    const baseUrl = 'http://localhost:3000';
-
     function impl_getKorisnik(fnCallback) {
-        fetch(`${baseUrl}/korisnik`)
+        fetch(`http://localhost:3000/korisnik`)
             .then(response => {
                 if (!response.ok) {
                     const error = { message: response.statusText };
@@ -17,7 +15,7 @@ const PoziviAjax = (() => {
     }
 
     function impl_putKorisnik(noviPodaci, fnCallback) {
-        fetch(`${baseUrl}/korisnik`, {
+        fetch(`http://localhost:3000/korisnik`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -38,7 +36,7 @@ const PoziviAjax = (() => {
     }
 
     function impl_postUpit(nekretnina_id, tekst_upita, fnCallback) {
-        fetch(`${baseUrl}/upit`, {
+        fetch(`http://localhost:3000/upit`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -59,7 +57,7 @@ const PoziviAjax = (() => {
     }
 
     function impl_getNekretnine(fnCallback) {
-        fetch(`${baseUrl}/nekretnine`)
+        fetch(`http://localhost:3000/nekretnine`)
             .then(response => {
                 if (!response.ok) {
                     const error = { message: response.statusText };
@@ -74,7 +72,7 @@ const PoziviAjax = (() => {
     }
 
     function impl_postLogin(username, password, fnCallback) {
-        fetch(`${baseUrl}/login`, {
+        fetch(`http://localhost:3000/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -95,7 +93,7 @@ const PoziviAjax = (() => {
     }
 
     function impl_postLogout(fnCallback) {
-        fetch(`${baseUrl}/logout`, {
+        fetch(`http://localhost:3000/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
