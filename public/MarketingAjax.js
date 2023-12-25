@@ -25,7 +25,7 @@ const MarketingAjax = (() => {
         if (prviPut || osvjeziTrenutnu) {
             fetch('/marketing/osvjezi', {
                 method: 'POST',
-                headers: {
+                heade   rs: {
                     'Content-Type': 'application/json',
                 }, body: JSON.stringify({ nizNekretnina: ids })
             }).then((response) => {

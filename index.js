@@ -13,6 +13,7 @@ app.use(express.static(path.join(__dirname, 'public', 'html')));
 app.use(express.json());
 
 let nizNekretninaTrenutna = [];
+let nizNekretninaPrethodni = [];
 
 app.use(session({
     secret: 'wt19215',
@@ -40,15 +41,21 @@ app.get('/public/:file', (req, res) => {
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
-    fs.readFile('data/korisnici.json', 'utf-8', (err, data) => {
+    fs.readFile('data/korisnici.json', 'utf-8', async (err, data) => {
         if (err) {
             res.status(400).json({ greska: err.message });
         } else {
             const users = JSON.parse(data.toString('utf8'));
-            const user = users.find(u => u.username === username && bcrypt.compare(password, u.password));
+
+            const user = users.find(u => u.username === username);
             if (user) {
-                req.session.username = user.username;
-                res.status(200).json({ poruka: 'Uspješna prijava' });
+                const compare = await bcrypt.compare(password, user.password);
+                if (compare) {
+                    req.session.username = user.username;
+                    res.status(200).json({ poruka: 'Uspješna prijava' });
+                } else {
+                    res.status(401).json({ greska: 'Neuspješna prijava' });
+                }
             } else {
                 res.status(401).json({ greska: 'Neuspješna prijava' });
             }
@@ -131,7 +138,7 @@ app.post('/upit', (req, res) => {
 app.put('/korisnik', (req, res) => {
     if (req.session.username) {
         const { ime, prezime, username, password } = req.body;
-        fs.readFile('data/korisnici.json', (err, data) => {
+        fs.readFile('data/korisnici.json', async (err, data) => {
             if (err) {
                 res.status(500).json({ greska: err.message });
             } else {
@@ -142,7 +149,13 @@ app.put('/korisnik', (req, res) => {
                     if (ime) loggedInUser.ime = ime;
                     if (prezime) loggedInUser.prezime = prezime;
                     if (username) loggedInUser.username = username;
-                    if (password) loggedInUser.password = password;
+                    if (password) {
+
+
+                        const pass = await bcrypt.hash(password, 10)
+                        loggedInUser.password = pass;
+                    }
+
 
                     fs.writeFile('data/korisnici.json', JSON.stringify(users), (err) => {
                         if (err) {
@@ -171,6 +184,9 @@ app.get('/nekretnine', (req, res) => {
                 if (!nizNekretninaTrenutna.find(obj => obj.nekretninaId == item.id))
                     nizNekretninaTrenutna.push({ nekretninaId: item.id, klikovi: 0, pretrage: 0 });
             });
+            nizNekretninaPrethodni = deepCopyArray(nizNekretninaTrenutna);
+            console.log("nizNekretninaPrethodni", nizNekretninaPrethodni);
+            console.log("nizNekretninaTrenutnu", nizNekretninaTrenutna);
             res.status(200).json(JSON.parse(data.toString('utf8')));
         }
     });
@@ -179,10 +195,12 @@ app.get('/nekretnine', (req, res) => {
 app.post('/marketing/nekretnine', (req, res) => {
     const body = req.body;
     if (nizNekretninaTrenutna.length == 0) {
+        nizNekretninaPrethodni = deepCopyArray(nizNekretninaTrenutna);
         nizNekretninaTrenutna = body.nizNekretnina.map(id => {
             return { nekretninaId: id, klikovi: 1, pretrage: 1 };
         });
     } else {
+        nizNekretninaPrethodni = deepCopyArray(nizNekretninaTrenutna);
         body.nizNekretnina.forEach(id => {
             const item = nizNekretninaTrenutna.find(item => item.nekretninaId === id);
             if (item) {
@@ -192,30 +210,28 @@ app.post('/marketing/nekretnine', (req, res) => {
             }
         });
     }
-    //console.log("/marketing/nekretnine");
-    //console.log(nizNekretnina)
     res.status(200).send();
 });
 
 app.post('/marketing/nekretnina/:id', (req, res) => {
     const id = req.params.id;
+    nizNekretninaPrethodni = deepCopyArray(nizNekretninaTrenutna);
     const item = nizNekretninaTrenutna.find(item => item.nekretninaId == id);
     if (item) {
         item.klikovi++;
-        //console.log("/marketing/nekretnina/:id");
-        //console.log(item);
+        console.log("nizNekretninaPrethodni", nizNekretninaPrethodni);
+        console.log("nizNekretninaTrenutnu", nizNekretninaTrenutna);
         res.status(200).send();
     } else {
         res.status(400).json({ greska: `Nekretnina sa id-em ${id} ne postoji` });
     }
-    //console.log(nizNekretninaTrenutna);
 });
 
 app.post('/marketing/osvjezi', (req, res) => {
     let nizPromjenjenih = [];
-    if (nizNekretninaTrenutna.length == 0 && req.body.nizNekretnina !== undefined) {
+    if (nizNekretninaTrenutna.length == 0 && req.body.nizNekretnina !== undefined) { // prazan pocetni niz, ima body
         nizPromjenjenih = req.body.nizNekretnina;
-    } else if (req.body.nizNekretnina !== undefined) {
+    } else if (req.body.nizNekretnina !== undefined) { // ima body
         let noviNiz = req.body.nizNekretnina;
         noviNiz = noviNiz.map(id => {
             return parseInt(id);
@@ -230,12 +246,15 @@ app.post('/marketing/osvjezi', (req, res) => {
                 nizPromjenjenih.push(obj1);
             }
         })
-    } else if(req.session.osvjeziJednog == null) {
-        nizPromjenjenih = nizNekretninaTrenutna;
-    }
-
-    if (req.session.osvjeziJednog != null) {
+    } else if (req.session.osvjeziJednog == null) {
+        console.log("nizNekretninaPrethodni", nizNekretninaPrethodni);
+        console.log("nizNekretninaTrenutnu", nizNekretninaTrenutna);
+        nizPromjenjenih = nadjiPromjene(nizNekretninaPrethodni, nizNekretninaTrenutna);
+        nizNekretninaPrethodni = deepCopyArray(nizNekretninaTrenutna);
+        console.log("nizPromjenjenih", nizPromjenjenih);
+    } else if (req.session.osvjeziJednog != null) {
         let indeks = req.session.osvjeziJednog;
+        let staraVrijednost = nizNekretninaPrethodni.find(obj => obj.nekretninaId == indeks);
         nizNekretninaTrenutna.forEach(obj1 => {
             if (obj1.nekretninaId !== undefined && indeks == obj1.nekretninaId) {
                 nizPromjenjenih.push(obj1);
@@ -252,3 +271,31 @@ app.listen(port, () => {
     console.log(`Server sluša na http://localhost:${port}`);
 });
 
+function nadjiPromjene(stariNiz, noviNiz) {
+    const changes = [];
+
+    noviNiz.forEach((noviItem) => {
+        const stariItem = stariNiz.find((obj) => obj.nekretninaId == noviItem.nekretninaId);
+
+        if (stariItem && (stariItem.klikovi != noviItem.klikovi || stariItem.pretrage != noviItem.pretrage)) {
+            changes.push({
+                nekretninaId: noviItem.nekretninaId,
+                klikovi: noviItem.klikovi,
+                pretrage: noviItem.pretrage
+            })
+        }
+        if (!stariItem) {
+            changes.push({
+                nekretninaId: noviItem.nekretninaId,
+                klikovi: noviItem.klikovi,
+                pretrage: noviItem.pretrage
+            })
+        }
+    });
+
+    return changes;
+}
+
+function deepCopyArray(arr) {
+    return JSON.parse(JSON.stringify(arr));
+}
