@@ -3,6 +3,8 @@ const MarketingAjax = (() => {
     let osvjeziTrenutnu = false;
     let ids = [];
 
+    let listaOsvjezavanje = []
+
     const novoFiltriranje = (listaFiltriranihNekretnina) => {
         const ids = listaFiltriranihNekretnina.map(obj => obj.id);
         fetch('/marketing/nekretnine', {
@@ -25,7 +27,7 @@ const MarketingAjax = (() => {
         if (prviPut || osvjeziTrenutnu) {
             fetch('/marketing/osvjezi', {
                 method: 'POST',
-                heade   rs: {
+                headers: {
                     'Content-Type': 'application/json',
                 }, body: JSON.stringify({ nizNekretnina: ids })
             }).then((response) => {
@@ -33,12 +35,22 @@ const MarketingAjax = (() => {
                 osvjeziTrenutnu = false;
                 return response.json();
             }).then((data) => {
-                data.forEach(nekretnina => {
-                    const nekretninaId = nekretnina.nekretninaId;
-                    const pretragaValue = nekretnina.pretrage;
-                    const pretrageElement = divNekretnine.querySelectorAll(`#pretrage-${nekretninaId}`)[0]
-                    if (pretrageElement) pretrageElement.innerHTML = `<p>Pretrage: ${pretragaValue}</p>`;
-                })
+                if (data.length != 0) {
+                    listaOsvjezavanje = data;
+                    data.forEach(nekretnina => {
+                        const nekretninaId = nekretnina.nekretninaId;
+                        const pretragaValue = nekretnina.pretrage;
+                        const pretrageElement = divNekretnine.querySelectorAll(`#pretrage-${nekretninaId}`)[0]
+                        if (pretrageElement) pretrageElement.innerHTML = `<p>Pretrage: ${pretragaValue}</p>`;
+                    })
+                } else {
+                    listaOsvjezavanje.forEach(nekretnina => {
+                        const nekretninaId = nekretnina.nekretninaId;
+                        const pretragaValue = nekretnina.pretrage;
+                        const pretrageElement = divNekretnine.querySelectorAll(`#pretrage-${nekretninaId}`)[0]
+                        if (pretrageElement) pretrageElement.innerHTML = `<p>Pretrage: ${pretragaValue}</p>`;
+                    })
+                }
             });
         } else {
             fetch('/marketing/osvjezi', {
@@ -49,12 +61,22 @@ const MarketingAjax = (() => {
             }).then((response) => {
                 return response.json();
             }).then((data) => {
-                data.forEach(nekretnina => {
-                    const nekretninaId = nekretnina.nekretninaId;
-                    const pretragaValue = nekretnina.pretrage;
-                    const pretrageElement = divNekretnine.querySelectorAll(`#pretrage-${nekretninaId}`)[0]
-                    if (pretrageElement) pretrageElement.innerHTML = `<p>Pretrage: ${pretragaValue}</p>`;
-                })
+                if (data.length != 0) {
+                    listaOsvjezavanje = data;
+                    data.forEach(nekretnina => {
+                        const nekretninaId = nekretnina.nekretninaId;
+                        const pretragaValue = nekretnina.pretrage;
+                        const pretrageElement = divNekretnine.querySelectorAll(`#pretrage-${nekretninaId}`)[0]
+                        if (pretrageElement) pretrageElement.innerHTML = `<p>Pretrage: ${pretragaValue}</p>`;
+                    })
+                } else {
+                    listaOsvjezavanje.forEach(nekretnina => {
+                        const nekretninaId = nekretnina.nekretninaId;
+                        const pretragaValue = nekretnina.pretrage;
+                        const pretrageElement = divNekretnine.querySelectorAll(`#pretrage-${nekretninaId}`)[0]
+                        if (pretrageElement) pretrageElement.innerHTML = `<p>Pretrage: ${pretragaValue}</p>`;
+                    })
+                }
             });
         }
     };
@@ -75,8 +97,7 @@ const MarketingAjax = (() => {
                 osvjeziTrenutnu = false;
                 return response.json();
             }).then((data) => {
-                //console.log(data);
-                data.forEach(nekretnina => {
+                listaOsvjezavanje.forEach(nekretnina => {
                     const nekretninaId = nekretnina.nekretninaId;
                     const klikoviValue = nekretnina.klikovi;
                     const klikoviElement = divNekretnine.querySelectorAll(`#klikovi-${nekretninaId}`)[0];
@@ -92,8 +113,7 @@ const MarketingAjax = (() => {
             }).then((response) => {
                 return response.json();
             }).then((data) => {
-                //console.log(data);
-                data.forEach(nekretnina => {
+                listaOsvjezavanje.forEach(nekretnina => {
                     const nekretninaId = nekretnina.nekretninaId;
                     const klikoviValue = nekretnina.klikovi;
                     const klikoviElement = divNekretnine.querySelectorAll(`#klikovi-${nekretninaId}`)[0];
