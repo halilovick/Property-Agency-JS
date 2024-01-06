@@ -129,23 +129,6 @@ const PoziviAjax = (() => {
             .catch(error => fnCallback(error, null));
     }
 
-    function impl_getKorisnikById(korisnik_id, fnCallback) {
-        fetch(`/korisnik/${korisnik_id}`, {
-            method: 'GET',
-        })
-            .then(response => {
-                if (!response.ok) {
-                    const error = { message: response.statusText };
-                    return fnCallback(error, null);
-                }
-
-                response.json()
-                    .then(data => fnCallback(null, data))
-                    .catch(error => fnCallback(error, null));
-            })
-            .catch(error => fnCallback(error, null));
-    }
-
     return {
         postLogin: impl_postLogin,
         postLogout: impl_postLogout,
@@ -153,7 +136,6 @@ const PoziviAjax = (() => {
         putKorisnik: impl_putKorisnik,
         postUpit: impl_postUpit,
         getNekretnine: impl_getNekretnine,
-        getNekretninaById: impl_getNekretninaById,
-        getKorisnikById: impl_getKorisnikById
+        getNekretninaById: impl_getNekretninaById
     };
 })();

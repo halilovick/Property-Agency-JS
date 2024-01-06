@@ -19,14 +19,12 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("upiti-list").innerHTML = ``;
             const upitiArray = JSON.parse(JSON.stringify(nekretninaDetails.upiti));
             upitiArray.forEach(upit => {
-                PoziviAjax.getKorisnikById(upit.korisnik_id, function (error, data) {
-                    const upitElement = document.createElement("li");
-                    upitElement.innerHTML = `
-                        <h4>${data.username}</h4>
-                        <p>${upit.tekst_upita}</p>
-                    `;
-                    document.getElementById("upiti-list").appendChild(upitElement);
-                });
+                const upitElement = document.createElement("li");
+                upitElement.innerHTML = `
+                    <h4>${upit.Korisnik.username}</h4>
+                    <p>${upit.tekst_upita}</p>
+                `;
+                document.getElementById("upiti-list").appendChild(upitElement);
             });
         }
     });

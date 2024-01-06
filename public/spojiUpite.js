@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
             loggedInUser = data;
             const form = document.getElementById("upit_input");
             form.innerHTML = `
-            <input type="text" id="tekst_upita">
-            <button id="submit-query-button" onclick="posaljiUpit()">Pošalji upit</button>
+                <input type="text" id="tekst_upita">
+                <button id="submit-query-button" onclick="posaljiUpit()">Pošalji upit</button>
             `;
         }
     });
@@ -28,15 +28,15 @@ function posaljiUpit() {
             }
             const upitElement = document.createElement("li");
             upitElement.innerHTML = `
-            <h4>${loggedInUser.username}</h4>
-            <p>${tekstUpita}</p>
+                <h4>${loggedInUser.username}</h4>
+                <p>${tekstUpita}</p>
             `;
             document.getElementById("upiti-list").appendChild(upitElement);
             const form = document.getElementById("upit_input");
             form.innerHTML = `
-        <input type="text" id="tekst_upita">
-        <button id="submit-query-button" onclick="posaljiUpit()">Pošalji upit</button>
-        `;
+                <input type="text" id="tekst_upita">
+                <button id="submit-query-button" onclick="posaljiUpit()">Pošalji upit</button>
+            `;
         }
     });
 }

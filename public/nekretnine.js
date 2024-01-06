@@ -101,19 +101,6 @@ setInterval(() => {
     }
 }, 500);
 
-const listaKorisnika = [{
-    id: 1,
-    ime: "Neko",
-    prezime: "Nekic",
-    username: "username1",
-},
-{
-    id: 2,
-    ime: "Neko2",
-    prezime: "Nekic2",
-    username: "username2",
-}]
-
 function detaljiClick(nekretninaId) {
     const nekretninaItems = document.querySelectorAll('.grid-item');
     let bojaNekretnine = "";
@@ -168,7 +155,7 @@ PoziviAjax.getNekretnine(function (error, data) {
         listaNekretnina = data;
 
         const nekretnine = SpisakNekretnina();
-        nekretnine.init(listaNekretnina, listaKorisnika);
+        nekretnine.init(listaNekretnina, []);
 
         spojiNekretnine(divStan, nekretnine, { tip_nekretnine: "Stan" });
         spojiNekretnine(divKuca, nekretnine, { tip_nekretnine: "Kuca" });

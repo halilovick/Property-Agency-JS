@@ -104,18 +104,6 @@ app.get('/korisnik', async (req, res) => {
     }
 });
 
-app.get('/korisnik/:id', async (req, res) => {
-    const korisnikId = parseInt(req.params.id);
-
-    const trazeniKorisnik = await Korisnik.findByPk(korisnikId);
-
-    if (!trazeniKorisnik) {
-        return res.status(400).json({ greska: `Korisnik sa id-em ${korisnikId} ne postoji` });
-    }
-
-    res.status(200).json(trazeniKorisnik);
-});
-
 app.post('/upit', async (req, res) => {
     if (req.session.username) {
         const { nekretnina_id, tekst_upita } = req.body;
@@ -191,7 +179,13 @@ app.get('/nekretnina/:id', async (req, res) => {
         return res.status(400).json({ greska: `Nekretnina sa id-em ${nekretninaId} ne postoji` });
     }
     const trazenaNekretnina = await Nekretnina.findByPk(nekretninaId, {
-        include: { model: Upit, as: 'upiti' }
+        include: [
+            {
+                model: Upit,
+                as: 'upiti',
+                include: { model: Korisnik, attributes: ['username'] }
+            }
+        ]
     });
 
     if (!trazenaNekretnina) {
