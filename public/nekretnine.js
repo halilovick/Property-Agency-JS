@@ -157,15 +157,7 @@ function detaljiClick(nekretninaId) {
 }
 
 function otvoriDetaljeClick(nekretninaId) {
-    PoziviAjax.getNekretninaById(nekretninaId, function (error, data) {
-        if (error) {
-            console.log(error);
-        } else {
-            const queryParams = new URLSearchParams(data);
-            queryParams.append('upiti', JSON.stringify(data.upiti));
-            window.location.href = `/detalji.html?${queryParams.toString()}`;
-        }
-    });
+    window.location.href = `/detalji.html?id=${nekretninaId}`;
 }
 
 var listaNekretnina = [];
