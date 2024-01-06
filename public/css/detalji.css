@@ -76,3 +76,22 @@ h3 {
 #upiti h4 {
     font-weight: bold;
 }
+
+#upit_input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#tekst_upita {
+    width: 600px; 
+    height: 100px;
+    margin-bottom: 10px; 
+}
+
+#submit-query-button {
+    width: 608px;
+    height: 50px;
+    margin-bottom: 50px; 
+}

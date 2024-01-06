@@ -17,13 +17,13 @@
         <div id="osnovno">
             <img src="https://c0.wallpaperflare.com/preview/641/848/841/beach-bird-s-eye-view-daytime-flow-thumbnail.jpg"
                 alt="No image found">
-            <p>
-                <b>Naziv:</b> Useljiv stan Sarajevo
+            <p id="naziv">
+                <b>Naziv:</b> Detalji stan
             </p>
-            <p>
+            <p id="kvadratura">
                 <b>Kvadratura:</b> 58 m2
             </p>
-            <p>
+            <p id="cijena">
                 <b>Cijena:</b> 232000 KM
             </p>
         </div>
@@ -32,15 +32,15 @@
             <form>
                 <table>
                     <tr>
-                        <td><b>Tip grijanja:</b> plin</td>
-                        <td><b>Godina izgradnje:</b> 2019</td>
+                        <td id="tip_grijanja"><b>Tip grijanja:</b> plin</td>
+                        <td id="godina_izgradnje"><b>Godina izgradnje:</b> 2019</td>
                     </tr>
                     <tr>
-                        <td><b>Lokacija:</b> Novo Sarajevo</td>
-                        <td><b>Datum objave:</b> 01.10.2023.</td>
+                        <td id="lokacija"><b>Lokacija:</b> Novo Sarajevo</td>
+                        <td id="datum_objave"><b>Datum objave:</b> 01.10.2023.</td>
                     </tr>
                     <tr>
-                        <td colspan="2">
+                        <td colspan="2" id="opis">
                             <b>Opis: </b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                             incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                             exercitation
@@ -54,7 +54,7 @@
         </div>
         <h3>UPITI</h3>
         <div id="upiti">
-            <ul>
+            <ul id="upiti-list">
                 <li>
                     <h4>username1</h4>
                     <p>
@@ -78,6 +78,13 @@
             </ul>
         </div>
     </div>
+
+    <div id="upit_input">
+    </div>
+
+    <script src="../scripts/PoziviAjax.js"></script>
+    <script src="../spojiDetalje.js"></script>
+    <script src="../spojiUpite.js"></script>
 </body>
 
 </html>

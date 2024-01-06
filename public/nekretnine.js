@@ -22,12 +22,17 @@ function spojiNekretnine(divReferenca, instancaModula, kriterij) {
             <img src="https://ontime.ba/wp-content/uploads/2023/08/DJI_0789A-1024x768.jpg" alt="No image found">
             <p>${nekretnina.naziv} / ${nekretnina.lokacija}</p>
             <p>${nekretnina.kvadratura}m2</p>
+            <div id="dodatniDetalji">
+            <div id="dodatniDetalji-${nekretnina.id}"></div>
+            </div>
             <p style="text-align: right;">${nekretnina.cijena} KM</p>
-            <div id="pretrageiklikovi">
+            <div id="dodatniDetalji">
             <div id="pretrage-${nekretnina.id}"></div>
             <div id="klikovi-${nekretnina.id}"></div>
             </div>
-            <button type="button" onclick="detaljiClick(${nekretnina.id})">Detalji</button>
+            <button type="button" id="detaljiButton-${nekretnina.id}" onclick="detaljiClick(${nekretnina.id})">Detalji</button>
+            <button type="button" id="otvoriDetaljeButton-${nekretnina.id}" style="display: none;" onclick="otvoriDetaljeClick(${nekretnina.id})">Otvori detalje</button>
+
         `;
         divReferenca.appendChild(nekretninaElement);
     });
@@ -116,8 +121,23 @@ function detaljiClick(nekretninaId) {
         if (item.id == nekretninaId) {
             item.style.width = '498px';
             bojaNekretnine = item.style.backgroundColor;
+            const divElement = document.getElementById(`dodatniDetalji-${nekretninaId}`);
+            divElement.innerHTML = `
+                <p>Lokacija: ${listaNekretnina.find(nekretnina => nekretnina.id == nekretninaId).lokacija}</p>
+                <p>Godina izgradnje: ${listaNekretnina.find(nekretnina => nekretnina.id == nekretninaId).godina_izgradnje}</p>
+            `;
+            const detaljiButton = document.getElementById(`detaljiButton-${nekretninaId}`);
+            detaljiButton.style.display = 'none';
+            const otvoriDetaljeButton = document.getElementById(`otvoriDetaljeButton-${nekretninaId}`);
+            otvoriDetaljeButton.style.display = 'block';
         } else {
             item.style.width = '298px';
+            const divElement = document.getElementById(`dodatniDetalji-${item.id}`);
+            divElement.innerHTML = ``;
+            const detaljiButton = document.getElementById(`detaljiButton-${item.id}`);
+            detaljiButton.style.display = 'block';
+            const otvoriDetaljeButton = document.getElementById(`otvoriDetaljeButton-${item.id}`);
+            otvoriDetaljeButton.style.display = 'none';
         }
     });
     if (bojaNekretnine == "white") {
@@ -134,6 +154,18 @@ function detaljiClick(nekretninaId) {
         divPp.style.gridTemplateColumns = "repeat(auto-fit, minmax(300px, 1fr))";
     }
     MarketingAjax.klikNekretnina(nekretninaId);
+}
+
+function otvoriDetaljeClick(nekretninaId) {
+    PoziviAjax.getNekretninaById(nekretninaId, function (error, data) {
+        if (error) {
+            console.log(error);
+        } else {
+            const queryParams = new URLSearchParams(data);
+            queryParams.append('upiti', JSON.stringify(data.upiti));
+            window.location.href = `/detalji.html?${queryParams.toString()}`;
+        }
+    });
 }
 
 var listaNekretnina = [];
