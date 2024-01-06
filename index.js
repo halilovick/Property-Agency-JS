@@ -187,7 +187,9 @@ app.get('/nekretnine', async (req, res) => {
 
 app.get('/nekretnina/:id', async (req, res) => {
     const nekretninaId = parseInt(req.params.id);
-
+    if (!nekretninaId) {
+        return res.status(400).json({ greska: `Nekretnina sa id-em ${nekretninaId} ne postoji` });
+    }
     const trazenaNekretnina = await Nekretnina.findByPk(nekretninaId, {
         include: { model: Upit, as: 'upiti' }
     });
