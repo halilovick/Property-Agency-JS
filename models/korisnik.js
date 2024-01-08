@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
-const sequelize = require('../database');
+const db = require('../database');
 
-const Korisnik = sequelize.define('Korisnik', {
+const Korisnik = db.sequelize.define('Korisnik', {
   ime: {
     type: Sequelize.STRING,
     allowNull: false,

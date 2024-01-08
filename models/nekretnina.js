@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
-const sequelize = require('../database');
+const db = require('../database');
 
-var Nekretnina = sequelize.define('Nekretnina', {
+var Nekretnina = db.sequelize.define('Nekretnina', {
     tip_nekretnine: {
         type: Sequelize.STRING,
         allowNull: false,

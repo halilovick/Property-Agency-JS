@@ -7,4 +7,8 @@ const sequelize = new Sequelize('wt24', 'root', 'password', {
     },
 });
 
-module.exports = sequelize;
+const db = {};
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+module.exports = db;

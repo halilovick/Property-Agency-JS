@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
-const sequelize = require('../database');
+const db = require('../database');
 
-var Upit = sequelize.define('Upit', {
+var Upit = db.sequelize.define('Upit', {
     korisnik_id: {
         type: Sequelize.INTEGER,
         allowNull: false,

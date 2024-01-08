@@ -7,7 +7,6 @@ const bcrypt = require('bcrypt');
 const Korisnik = require('./models/korisnik');
 const Nekretnina = require('./models/nekretnina');
 const Upit = require('./models/upit');
-const { Sequelize } = require('sequelize');
 
 const app = express();
 const port = 3000;
@@ -19,25 +18,24 @@ app.use(express.json());
 let nizNekretninaTrenutna = [];
 let nizNekretninaPrethodni = [];
 
-const sequelize = new Sequelize('wt24', 'root', 'password', {
-    host: 'localhost',
-    dialect: 'mysql',
-    define: {
-        freezeTableName: true
-    },
-});
+const db = require('./database');
+db.sequelize.sync();
 
-async function runMigrations() {
-    try {
-        await sequelize.sync();
-        console.log('Migracije uspješno izvršene.');
-    } catch (error) {
-        console.error('Greška prilikom izvršavanja migracija:', error);
-    } finally {
-        sequelize.close();
-    }
+function dbInicijalizacija(){
+    var nekretnineListaPromisea = [];
+    var korisniciListaPromisea = [];
+    var upitiListaPromisea = [];
+    return new Promise((resolve, reject) => {
+        nekretnineListaPromisea.push(Nekretnina.create({ tip_nekretnine: 'Stan', naziv: 'Stan 1', kvadratura: 50, cijena: 100000, tip_grijanja: 'Centralno', lokacija: 'Sarajevo', godina_izgradnje: 2010, datum_objave: new Date(), opis: 'Opis stana 1', pretrage: 0, klikovi: 0 }));
+        nekretnineListaPromisea.push(Nekretnina.create({ tip_nekretnine: 'Kuca', naziv: 'Kuca 1', kvadratura: 100, cijena: 200000, tip_grijanja: 'Centralno', lokacija: 'Sarajevo', godina_izgradnje: 2015, datum_objave: new Date(), opis: 'Opis kuce 1', pretrage: 0, klikovi: 0 }));
+        korisniciListaPromisea.push(Korisnik.create({ ime: 'Ime 1', prezime: 'Prezime 1', username: 'username1', password: '$2b$10$85NPVhw4HfTEHbCz4qMHguu6O0AFBZQNwlS17bSp4wUj/zbo2jwyq' }));
+        upitiListaPromisea.push(Upit.create({ korisnik_id: 1, tekst_upita: 'Tekst upita 1', nekretnina_id: 1 }));
+        upitiListaPromisea.push(Upit.create({ korisnik_id: 1, tekst_upita: 'Tekst upita 2', nekretnina_id: 2 }));
+        Promise.all(nekretnineListaPromisea);
+        Promise.all(korisniciListaPromisea);
+        Promise.all(upitiListaPromisea);
+    });
 }
-runMigrations();
 
 app.use(session({
     secret: 'wt19215',
