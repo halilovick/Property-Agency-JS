@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const db = require('../database');
+const db = require('../config/database');
 
 var Upit = db.sequelize.define('Upit', {
     korisnik_id: {

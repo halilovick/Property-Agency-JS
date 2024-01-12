@@ -38,6 +38,8 @@ function spojiNekretnine(divReferenca, instancaModula, kriterij) {
     });
 }
 
+let listaKorisnika = [];
+
 const pretragaButton = document.getElementById("pretragaButton");
 pretragaButton.addEventListener("click", (event) => {
     const minCijena = document.getElementById("minCijena").value;
