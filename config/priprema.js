@@ -113,6 +113,8 @@ function dbInitialize() {
                 tekst_upita: 'Tekst upita 2 za nekretninu 2',
                 nekretnina_id: 2
             });
+
+            resolve('Uspješna inicijalizacija podataka!');
         } catch (error) {
             reject(`Neuspješna inicijalizacija podataka: ${error.message}`);
         }
